@@ -1,0 +1,9 @@
+[package]
+name = "tachyon"
+version = "0.1.0"
+edition = "2024"
+description = "A first-principles market simulation laboratory for high-frequency trading research."
+license = "MIT"
+repository = "https://github.com/savagemechanic/tachyon"
+
+[dependencies]
