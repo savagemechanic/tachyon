@@ -48,6 +48,15 @@ fn duplicate_cancel_partial_full_and_empty_level() {
     assert!(b.cancel(OrderId(404)).is_err())
 }
 #[test]
+fn duplicate_taker_fails_before_mutation() {
+    let mut book = OrderBook::default();
+    book.add(order(1, 1, Side::Bid, 99, 10, 1)).unwrap();
+    book.add(order(2, 2, Side::Ask, 101, 10, 2)).unwrap();
+    let snapshot = book.clone();
+    assert!(book.match_order(order(1, 3, Side::Bid, 101, 5, 3)).is_err());
+    assert_eq!(book, snapshot);
+}
+#[test]
 fn best_prices_and_crossed_rejection() {
     let mut b = OrderBook::default();
     b.add(order(1, 1, Side::Bid, 98, 1, 1)).unwrap();

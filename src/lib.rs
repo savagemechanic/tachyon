@@ -258,6 +258,12 @@ impl OrderBook {
         if taker.quantity.0 == 0 {
             return Err(Error("taker quantity must be positive".into()));
         }
+        if self.index.contains_key(&taker.id) {
+            return Err(Error(format!(
+                "duplicate active taker order {}",
+                taker.id.0
+            )));
+        }
         let mut out = vec![];
         while taker.quantity.0 > 0 {
             let Some(price) = (if taker.side == Side::Bid {
